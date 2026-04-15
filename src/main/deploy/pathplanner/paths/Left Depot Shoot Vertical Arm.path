@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.467280858676207,
+        "y": 5.081538461538462
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.2854184182750705,
+        "y": 5.253078698134262
+      },
+      "isLocked": false,
+      "linkedName": "Left Close Shoot Point"
+    },
+    {
+      "anchor": {
+        "x": 3.351760563380282,
+        "y": 5.184718309859155
+      },
+      "prevControl": {
+        "x": 3.5386128930511256,
+        "y": 5.018627350151595
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "IntakeVertical",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -40.236000000000004
+  },
+  "reversed": false,
+  "folder": "Experimental",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -40.236358309273875
+  },
+  "useDefaultConstraints": true
+}

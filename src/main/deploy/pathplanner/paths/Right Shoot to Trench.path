@@ -1,0 +1,88 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.128204225352113,
+        "y": 2.789471830985916
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2339788732394372,
+        "y": 2.2625176056338034
+      },
+      "isLocked": false,
+      "linkedName": "Right Close Shoot Point"
+    },
+    {
+      "anchor": {
+        "x": 2.9206161971830995,
+        "y": 1.0329577464788735
+      },
+      "prevControl": {
+        "x": 2.5450017605633817,
+        "y": 1.4529793133802817
+      },
+      "nextControl": {
+        "x": 3.2962306338028173,
+        "y": 0.6129361795774653
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.613,
+        "y": 0.668
+      },
+      "prevControl": {
+        "x": 3.360915954075666,
+        "y": 0.668
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Right Trench Point"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 180.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "StopShoot",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 0.2,
+      "command": null
+    },
+    {
+      "name": "IntakeDown",
+      "waypointRelativePos": 0.2,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Right Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 36.8698976458441
+  },
+  "useDefaultConstraints": false
+}
