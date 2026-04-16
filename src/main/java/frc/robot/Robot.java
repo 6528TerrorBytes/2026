@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.controls.LarsonAnimation;
 import com.ctre.phoenix6.controls.SolidColor;
 import com.ctre.phoenix6.controls.StrobeAnimation;
 import com.ctre.phoenix6.hardware.CANdle;
@@ -64,11 +65,13 @@ public class Robot extends TimedRobot
 
   private static CANdle m_candle = new CANdle(30, "canivore");
 
-  public static SolidColor blueSolid = new SolidColor(0, 53).withColor(new RGBWColor(0, 0, 255));
-  public static SolidColor redSolid = new SolidColor(0, 53).withColor(new RGBWColor(255, 0, 0));
-  public static StrobeAnimation blueStrobe = new StrobeAnimation(0, 157).withColor(new RGBWColor(0, 0, 255));
-  public static StrobeAnimation redStrobe = new StrobeAnimation(0, 157).withColor(new RGBWColor(255, 0, 0));
-  public static SolidColor whiteSolid = new SolidColor(0, 53).withColor(new RGBWColor(255, 255, 255));
+  public static SolidColor blueSolid = new SolidColor(0, 113).withColor(new RGBWColor(0, 0, 255));
+  public static SolidColor redSolid = new SolidColor(0, 113).withColor(new RGBWColor(255, 0, 0));
+  public static StrobeAnimation blueStrobe = new StrobeAnimation(0, 113).withColor(new RGBWColor(0, 0, 255));
+  public static StrobeAnimation redStrobe = new StrobeAnimation(0, 113).withColor(new RGBWColor(255, 0, 0));
+  public static LarsonAnimation knightMode = new LarsonAnimation(55, 113).withColor(new RGBWColor(255, 0, 0)).withSize(6);
+  public static SolidColor stopCandle = new SolidColor(0, 8).withColor(new RGBWColor(0, 0, 0));
+  //box end 54, ends at 113
 
   public Robot()
   {
@@ -87,7 +90,6 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
-    m_candle.setControl(blueSolid);
     
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -118,31 +120,6 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
-    
-    if (
-    (DriverStation.getMatchTime() <= 133 && DriverStation.getMatchTime() > 130) || 
-    (DriverStation.getMatchTime() <= 108 && DriverStation.getMatchTime() > 105) || 
-    (DriverStation.getMatchTime() <= 83 && DriverStation.getMatchTime() > 80) || 
-    (DriverStation.getMatchTime() <= 58 && DriverStation.getMatchTime() > 55) || 
-    (DriverStation.getMatchTime() <= 33 && DriverStation.getMatchTime() > 30) || 
-    DriverStation.getMatchTime() <= 8) {
-      
-      if (Utility.teamColorIsRed()) {
-        m_candle.setControl(redStrobe);
-      } else {
-      m_candle.setControl(blueStrobe);
-      }
-
-    } else {
-
-      if (Utility.teamColorIsRed()) {
-        m_candle.setControl(redSolid);
-      } else {
-      m_candle.setControl(blueSolid);
-      }
-
-    }
   }
 
   /**
@@ -154,6 +131,14 @@ public class Robot extends TimedRobot
     m_robotContainer.setMotorBrake(true);
     disabledTimer.reset();
     disabledTimer.start();
+
+    if (Utility.teamColorIsRed()) {
+      m_candle.setControl(redSolid);
+    } else {
+      m_candle.setControl(blueSolid);
+    }
+    m_candle.setControl(knightMode);
+    m_candle.setControl(stopCandle);
   }
 
   @Override
@@ -214,6 +199,30 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic()
   {
+    if (
+    (DriverStation.getMatchTime() <= 133 && DriverStation.getMatchTime() > 130) || 
+    (DriverStation.getMatchTime() <= 108 && DriverStation.getMatchTime() > 105) || 
+    (DriverStation.getMatchTime() <= 83 && DriverStation.getMatchTime() > 80) || 
+    (DriverStation.getMatchTime() <= 58 && DriverStation.getMatchTime() > 55) || 
+    (DriverStation.getMatchTime() <= 33 && DriverStation.getMatchTime() > 30) || 
+    DriverStation.getMatchTime() <= 8) {
+      
+      if (Utility.teamColorIsRed()) {
+        m_candle.setControl(redStrobe);
+      } else {
+      m_candle.setControl(blueStrobe);
+      }
+
+    } else {
+
+      if (Utility.teamColorIsRed()) {
+        m_candle.setControl(redSolid);
+      } else {
+      m_candle.setControl(blueSolid);
+      }
+
+    }
+    m_candle.setControl(stopCandle);
   }
 
   @Override

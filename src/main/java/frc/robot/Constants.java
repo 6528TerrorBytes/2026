@@ -92,7 +92,7 @@ public final class Constants
 
   public static final class Setpoints {
     public static final double armAngleHorizontal = 148; //Change this to whatever it is when horizontal, 135
-    public static final double armAngleIntake = armAngleHorizontal - 25; //Change to arm angle when given no power
+    public static final double armAngleIntake = armAngleHorizontal - 26; //Change to arm angle when given no power
     public static final double armAngleBack = armAngleHorizontal + 110; //229.3ish is hard-stop
     public static final double armAngleVertical = armAngleHorizontal + 90;
     
@@ -332,7 +332,7 @@ public final class Constants
     1, //tolerance
     1000, //max vel
     1000, //max accel
-    0.16, //p
+    0.19, //p
     0, //i
     0, //d
     0, //s

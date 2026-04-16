@@ -109,7 +109,7 @@ public class RobotContainer
   public double driveRotation = 0;
 
   // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+  public static final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/falcon"));
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -119,7 +119,7 @@ public class RobotContainer
                                                                 () -> rightJoystick.getX() * -driveLimit)
                                                             .withControllerRotationAxis(
                                                               () -> (leftJoystick.getZ() 
-                                                             // + SwerveSubsystem.newRotation
+                                                             + SwerveSubsystem.newRotation
                                                               ) * -0.8
                                                             )
                                                             .deadband(OperatorConstants.DEADBAND)
@@ -268,7 +268,7 @@ public class RobotContainer
     
     //new JoystickMultiAnalogButton(otherController, 3, 0.3, 1).whileTrue(new InstantCommand(() -> System.out.println("Shoinking my sploinking!")));
 
-    new JoystickButton(leftJoystick, 1).whileTrue(new InstantCommand(() -> drivebase.aimAtTarget(Cameras.FRONT_CAM)));
+    new JoystickButton(leftJoystick, 1).whileTrue(new TeleopFaceAprilTag());
 
     new POVButton(otherController, 0).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle0Spot));
 

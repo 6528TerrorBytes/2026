@@ -53,9 +53,20 @@ import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import frc.robot.Utility;
 
 public class SwerveSubsystem extends SubsystemBase
+
 {
+
+  //Do something with this lol
+  Pose2d hubPose;
+  
+  Pose2d blueHubPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+  Pose2d redHubPose = new Pose2d(Units.inchesToMeters(469.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+
+  public static double newRotation = 0;
+
   /**
    * Swerve drive object.
    */
@@ -79,6 +90,13 @@ public class SwerveSubsystem extends SubsystemBase
    public SwerveSubsystem(File directory)
   { 
     boolean blueAlliance = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue;
+
+    if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
+    hubPose = blueHubPose;
+  } else {
+    hubPose = redHubPose;
+  }
+
     Pose2d startingPose = blueAlliance ? new Pose2d(new Translation2d(Meter.of(1),
                                                                       Meter.of(4)),
                                                     Rotation2d.fromDegrees(0))
@@ -229,28 +247,58 @@ public class SwerveSubsystem extends SubsystemBase
    *
    * @return A {@link Command} which will run the alignment.
    */
-  public Command aimAtTarget(Cameras camera)
-  {
-    System.out.println("doing it");
-    return run(() -> {
-      Optional<PhotonPipelineResult> resultO = camera.getBestResult();
-      if (resultO.isPresent())
-      {
-        var result = resultO.get();
-        if (result.hasTargets())
-        {
-          for (var target : result.getTargets()) {
-            if (target.getFiducialId() == 26) {
-              drive(getTargetSpeeds(
-                0,
-                0,
-                Rotation2d.fromDegrees(result.getBestTarget()
-                .getYaw()))); // Not sure if this will work, more math may be required.
-            }
-          }
-        }
-      }
-    });
+  private double errorSum = 0;
+  private double lastError = 0.0;
+  public void aimAtTarget() {
+
+Translation2d robotToHub = hubPose.getTranslation().minus(swerveDrive.getPose().getTranslation());
+
+Rotation2d targetAngle;
+
+if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
+  targetAngle = robotToHub.getAngle().minus(Rotation2d.fromDegrees(180));
+} else {
+  targetAngle = robotToHub.getAngle().minus(Rotation2d.fromDegrees(180));
+}
+//Blue = + 180 , Red = - 180 maybe
+
+double currentYaw = swerveDrive.getPose().getRotation().getDegrees();
+
+System.out.println("Target: " + targetAngle.getDegrees());
+System.out.println("Yaw: " + currentYaw);
+
+// shortest-path error [-180, 180]
+double error = Math.IEEEremainder(targetAngle.getDegrees() - currentYaw, 360.0);
+
+error = -error;
+
+double derivative = error - lastError;
+lastError = error;
+errorSum += error;
+//469.11 x
+
+errorSum = Math.max(-1.0, Math.min(1.0, errorSum));
+
+double kP = 5.0 / 180.0;
+double kI = 0.004;
+double kD = 0.01;
+
+double turn = (kP * error) + (kI * errorSum) + (kD * derivative);
+
+
+// // P gain (tune this)
+// double kP 
+
+// // convert to turn speed
+// double turn = error * kP;
+
+// clamp to joystick range
+newRotation = Math.max(-1.0, Math.min(1.0, turn));
+
+System.out.println("Turn: " + turn);
+System.out.println("Error: " + error);
+System.out.println("Rotate: " + newRotation);
+
   }
 
   /**
@@ -591,7 +639,7 @@ public class SwerveSubsystem extends SubsystemBase
     {
       zeroGyro();
       //Set the pose 180 degrees, except not actually because our robot gets mad
-      resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)));
+      resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
     } else
     {
       zeroGyro();
