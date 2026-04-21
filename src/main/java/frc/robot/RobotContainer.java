@@ -85,7 +85,7 @@ import java.util.function.Supplier;
 public class RobotContainer
 {
   //something pretty cool dude!
-  private final SendableChooser<Command> autoChooser;
+  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   // Is currently Xbox Controller
@@ -96,12 +96,12 @@ public class RobotContainer
   //final MitoCANdria mito = new MitoCANdria(11);
 
   //private final CANdleSystem m_candleSubsystem = new CANdleSystem();
-  public final BasicSparkMotor m_teethMotor = new BasicSparkMotor(Constants.MotorIDs.intakeTeethID);
-  public final BasicSparkMotor m_zushiMotor = new BasicSparkMotor(Constants.MotorIDs.zushiID);
-  public final TalonMotor m_launcherMotor1 = new TalonMotor(Constants.MotorIDs.launcher1ID, Constants.MotorConfig.talonConfig);
-  public final TalonMotor m_launcherMotor2 = new TalonMotor(Constants.MotorIDs.launcher2ID, Constants.MotorConfig.talonConfig);
-  public final IntakeArm m_intakeArmMotor = new IntakeArm();
-  public final Hood m_hood = new Hood();
+  private final BasicSparkMotor m_teethMotor = new BasicSparkMotor(Constants.MotorIDs.intakeTeethID);
+  private final BasicSparkMotor m_zushiMotor = new BasicSparkMotor(Constants.MotorIDs.zushiID);
+  private final TalonMotor m_launcherMotor1 = new TalonMotor(Constants.MotorIDs.launcher1ID, Constants.MotorConfig.talonConfig);
+  private final TalonMotor m_launcherMotor2 = new TalonMotor(Constants.MotorIDs.launcher2ID, Constants.MotorConfig.talonConfig);
+  private final IntakeArm m_intakeArmMotor = new IntakeArm();
+  private final Hood m_hood = new Hood();
 
   public double driveLimit = 1;
 
@@ -182,12 +182,21 @@ public class RobotContainer
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
 
-    new EventTrigger("IntakeRun").whileTrue(new IntakeMove(m_teethMotor, true));
-    new EventTrigger("ReverseIntakeRun").whileTrue(new IntakeMove(m_teethMotor, false));
+    NamedCommands.registerCommand("CloseShoot1", testShootCmd());
+    NamedCommands.registerCommand("Test Command", new InstantCommand(() ->  m_teethMotor.onForward()));
+    //NamedCommands.registerCommand("Test Stop Command", new IntakeMove(m_teethMotor, true, true));
+
+
+
+    //ALWAYS AVOID USING EVENTTRIGGERS!!!!!     THEY ARE EVIL!!!! USE NAMED COMMANDS INSTEAD!!!! THEY GOOD!!!!
+    //ALSO EVENT MARKERS IN PATHPLANNER ARE EVIL TOO!!!! DO NOT USE!!!
+
 
     new EventTrigger("IntakeDown").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleIntake, false));
     new EventTrigger("IntakeUp").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleBack, false));
     new EventTrigger("IntakeVertical").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleVertical, false));
+
+    new EventTrigger("IntakeRun").whileTrue(new IntakeMove(m_teethMotor, true, false));
 
     new EventTrigger("ZushiRun").whileTrue(new ZushiMove(m_zushiMotor, true, false));
     new EventTrigger("ReverseZushiRun").whileTrue(new ZushiMove(m_zushiMotor, false, true));
@@ -258,9 +267,9 @@ public class RobotContainer
     new JoystickButton(rightJoystick, 2).whileTrue(new InstantCommand(() -> driveLimit = 0.5));
     new JoystickButton(rightJoystick, 2).onFalse(new InstantCommand(() -> driveLimit = 1));
 
-    new JoystickButton(otherController, 2).whileTrue(new IntakeMove(m_teethMotor, true));
+    new JoystickButton(otherController, 2).whileTrue(new IntakeMove(m_teethMotor, true, true));
     new JoystickButton(otherController, 6).whileTrue(new ParallelCommandGroup(
-      new IntakeMove(m_teethMotor, false),
+      new IntakeMove(m_teethMotor, false, true),
       new ZushiMove(m_zushiMotor, false, true)
     ));
 
@@ -278,14 +287,7 @@ public class RobotContainer
 
     new POVButton(otherController, 270).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle270Spot));
 
-    new JoystickAnalogButton(otherController, 3, 0.3, 1.3).whileTrue(new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -100, true),
-      new TalonMove(m_launcherMotor2, -100, true),
-      new SequentialCommandGroup(
-        new WaitCommand(0.5),
-        new ZushiMove(m_zushiMotor, true, true)
-      )
-    ));
+    new JoystickAnalogButton(otherController, 3, 0.3, 1.3).whileTrue(closeShootCmd());
 
     new JoystickAnalogButton(otherController, 2, 0.3, 1.3).whileTrue(new ParallelCommandGroup(
       new TalonMove(m_launcherMotor1, -90, true),
@@ -422,6 +424,30 @@ public class RobotContainer
 
     
   }
+
+  public Command closeShootCmd(){
+    return new ParallelCommandGroup(
+      new TalonMove(m_launcherMotor1, -100, true),
+      new TalonMove(m_launcherMotor2, -100, true),
+      new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        new ZushiMove(m_zushiMotor, true, true)
+      )
+    );
+  }
+  
+  public Command testShootCmd(){
+    return new ParallelCommandGroup(
+      m_launcherMotor1.setVoltageCmd(-10),
+      m_launcherMotor2.setVoltageCmd(-10),
+      new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        m_zushiMotor.setVoltageCmd(-12)
+      )
+    );
+  }
+
+  private final SendableChooser<Command> autoChooser;
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

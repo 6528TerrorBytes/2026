@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0,
-        "y": 6.255
+        "x": 0.466,
+        "y": 7.37237676056338
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0,
-        "y": 6.255
+        "x": 1.9262862254025048,
+        "y": 7.615757798130464
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Center Depot End"
     },
     {
       "anchor": {
-        "x": 1.8667077464788742,
-        "y": 4.290492957746479
+        "x": 2.0069946332737025,
+        "y": 4.318944543828264
       },
       "prevControl": {
-        "x": 1.8467077464788741,
-        "y": 4.857492957746479
+        "x": 1.995970533381405,
+        "y": 4.886190054362783
       },
       "nextControl": {
-        "x": 1.8867077464788742,
-        "y": 3.723492957746479
+        "x": 2.017478300032753,
+        "y": 3.7795070422535204
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.08,
-        "y": 3.987
+        "x": 2.8182647584973166,
+        "y": 3.9870950704225354
       },
       "prevControl": {
-        "x": 2.08,
-        "y": 3.987
+        "x": 1.8182647584973166,
+        "y": 3.9870950704225354
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Center Shoot"
     }
   ],
   "rotationTargets": [],
@@ -50,13 +50,13 @@
   "eventMarkers": [
     {
       "name": "CloseShoot",
-      "waypointRelativePos": 1.85,
+      "waypointRelativePos": 1.5044776119402963,
       "endWaypointRelativePos": 2.0,
       "command": null
     },
     {
       "name": "ZushiRun",
-      "waypointRelativePos": 1.9,
+      "waypointRelativePos": 1.7492537313432837,
       "endWaypointRelativePos": 2.0,
       "command": null
     }
@@ -77,7 +77,7 @@
   "folder": "Center Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

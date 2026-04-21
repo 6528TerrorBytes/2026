@@ -7,6 +7,7 @@ package frc.robot.subsystems.swervedrive;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -28,5 +29,11 @@ public class BasicSparkMotor extends SubsystemBase {
 
   public void disable() {
     m_motor.set(0);
+  }
+
+  public Command setVoltageCmd(double volts){
+    return this.runEnd(
+        () -> m_motor.setVoltage(volts), 
+        () -> m_motor.setVoltage(0));
   }
 }

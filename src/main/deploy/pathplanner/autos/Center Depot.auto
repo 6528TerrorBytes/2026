@@ -7,18 +7,6 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 4.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "Center to Depot"
           }
         },
@@ -56,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Experimental",
+  "folder": "Center Autos",
   "choreoAuto": false
 }

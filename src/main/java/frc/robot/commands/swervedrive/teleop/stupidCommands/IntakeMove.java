@@ -6,21 +6,22 @@ package frc.robot.commands.swervedrive.teleop.stupidCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Utility;
-//import frc.robot.subsystems.CoralDetector;
 import frc.robot.subsystems.swervedrive.BasicSparkMotor;
 
 public class IntakeMove extends Command {
   private final BasicSparkMotor m_intakeMotor;
-  //private final CoralDetector m_coralDetector;
 
   private double m_stopTime;
 
   private boolean m_reverse;
 
-  public IntakeMove(BasicSparkMotor intakeMotor, boolean reverse) {
+  private boolean m_stop;
+
+  public IntakeMove(BasicSparkMotor intakeMotor, boolean reverse, boolean stop) {
     m_intakeMotor = intakeMotor;
     m_reverse = reverse;
     m_stopTime = 0;
+    m_stop = stop;
 
     addRequirements(intakeMotor);
   }
@@ -43,7 +44,9 @@ public class IntakeMove extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    m_intakeMotor.disable();
+    //if (m_stop) {
+      m_intakeMotor.disable();
+    //}
   }
 
   @Override

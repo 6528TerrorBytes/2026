@@ -3,57 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.750787119856888,
-        "y": 4.752
+        "x": 6.0146690518783545,
+        "y": 4.5298747763864045
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.848139534883721,
-        "y": 5.563005366726297
+        "x": 7.29593309859155,
+        "y": 5.424242957746478
       },
       "isLocked": false,
       "linkedName": "Left Short Grab Point"
     },
     {
       "anchor": {
-        "x": 6.955742397141621,
-        "y": 7.386
+        "x": 4.6030590339892665,
+        "y": 5.406046511627907
       },
       "prevControl": {
-        "x": 7.458729874776386,
-        "y": 7.28819320214669
+        "x": 5.033502434684921,
+        "y": 5.684041207910518
       },
       "nextControl": {
-        "x": 6.259290487654762,
-        "y": 7.521426296189416
+        "x": 3.824239713774598,
+        "y": 4.903059033989266
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0778711985727485,
-        "y": 7.256
+        "x": 2.9156171735241503,
+        "y": 5.519624329159212
       },
       "prevControl": {
-        "x": 3.5646332737030413,
-        "y": 7.596475849731663
-      },
-      "nextControl": {
-        "x": 2.7047565836266925,
-        "y": 6.99501722820732
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.467280858676207,
-        "y": 5.081538461538462
-      },
-      "prevControl": {
-        "x": 2.4613059033989266,
-        "y": 6.28221824686941
+        "x": 0.9022146690518769,
+        "y": 7.300661896243291
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,27 +46,43 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.2112299465240663,
-      "rotationDegrees": 180.0
-    },
-    {
-      "waypointRelativePos": 1.604278074866312,
-      "rotationDegrees": 180.0
+      "waypointRelativePos": 1.0213903743315496,
+      "rotationDegrees": -145.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.1050847457627107,
+      "maxWaypointRelativePos": 1.4440677966101716,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
+      "name": "IntakeRun",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 2.0,
+      "command": null
+    },
+    {
       "name": "CloseShoot",
-      "waypointRelativePos": 2.9,
-      "endWaypointRelativePos": 3.0,
+      "waypointRelativePos": 1.5,
+      "endWaypointRelativePos": 2.0,
       "command": null
     },
     {
       "name": "ZushiRun",
-      "waypointRelativePos": 2.95,
-      "endWaypointRelativePos": 3.0,
+      "waypointRelativePos": 1.85,
+      "endWaypointRelativePos": 2.0,
       "command": null
     }
   ],
@@ -96,13 +96,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -40.236358309273875
+    "rotation": -39.59297954465829
   },
   "reversed": false,
   "folder": "Left Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 1.1017061152063492
   },
   "useDefaultConstraints": false
 }

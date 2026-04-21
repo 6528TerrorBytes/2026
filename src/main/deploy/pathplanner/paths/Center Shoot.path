@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.623221830985914,
+        "x": 3.1232218309859157,
         "y": 3.9870950704225354
       },
       "isLocked": false,
@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.08,
-        "y": 3.987
+        "x": 2.8182647584973166,
+        "y": 3.9870950704225354
       },
       "prevControl": {
-        "x": 3.58,
-        "y": 3.987
+        "x": 3.3182647584973166,
+        "y": 3.9870950704225354
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Center Shoot"
     }
   ],
   "rotationTargets": [],
@@ -34,13 +34,13 @@
   "eventMarkers": [
     {
       "name": "CloseShoot",
-      "waypointRelativePos": 0.7970149253731345,
+      "waypointRelativePos": 0.7970149253731343,
       "endWaypointRelativePos": 1.0,
       "command": null
     },
     {
       "name": "ZushiRun",
-      "waypointRelativePos": 0.8985074626865671,
+      "waypointRelativePos": 0.9,
       "endWaypointRelativePos": 1.0,
       "command": null
     }

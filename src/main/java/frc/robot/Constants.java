@@ -93,14 +93,14 @@ public final class Constants
   public static final class Setpoints {
     public static final double armAngleHorizontal = 148; //Change this to whatever it is when horizontal, 135
     public static final double armAngleIntake = armAngleHorizontal - 26; //Change to arm angle when given no power
-    public static final double armAngleBack = armAngleHorizontal + 110; //229.3ish is hard-stop
+    public static final double armAngleBack = armAngleHorizontal + 104; //229.3ish is hard-stop
     public static final double armAngleVertical = armAngleHorizontal + 90;
     
     public static final double armAngleStartUp = armAngleHorizontal + 115; //Angle that arm moves to upon being enabled
     public static final double armOscillateUp = armAngleHorizontal + 70;
     public static final double armOscillateDown = armAngleHorizontal + 20;
 
-    public static final double hoodAngleHorizontal = 13; //13
+    public static final double hoodAngleHorizontal = -18; //13
     public static final double hoodAngleTest = hoodAngleHorizontal + 202; //215
     public static final double hoodAngleBack = hoodAngleHorizontal + 235; //248
     public static final double hoodAngleShoot = hoodAngleHorizontal + 177; //190
@@ -108,7 +108,7 @@ public final class Constants
     public static final double hoodAngleCloseShoot = hoodAngleHorizontal + 235; //248
     public static final double hoodAngle0Spot = hoodAngleHorizontal + 225; //238
     public static final double hoodAngle90Spot = hoodAngleHorizontal + 230; //243
-    public static final double hoodAngle270Spot = hoodAngleHorizontal + 214; //227
+    public static final double hoodAngle270Spot = hoodAngleHorizontal + 204; //227
   }
 
   public static class ShooterConstants {
@@ -332,7 +332,7 @@ public final class Constants
     1, //tolerance
     1000, //max vel
     1000, //max accel
-    0.19, //p
+    0.11, //p 0.17
     0, //i
     0, //d
     0, //s

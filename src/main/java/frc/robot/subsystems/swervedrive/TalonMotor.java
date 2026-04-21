@@ -20,6 +20,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.ResetMode.*;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TalonMotor extends SubsystemBase {
@@ -71,5 +72,9 @@ public class TalonMotor extends SubsystemBase {
     m_disable = false;
     m_motor.setControl(new VelocityVoltage(-100));
     //m_motor.set(-1);
+  }
+
+  public Command setVoltageCmd(double volts){
+    return this.runEnd(() -> m_motor.setVoltage(volts), () -> m_motor.setVoltage(0));
   }
 }

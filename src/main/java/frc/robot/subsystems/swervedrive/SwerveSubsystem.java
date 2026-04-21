@@ -91,11 +91,7 @@ public class SwerveSubsystem extends SubsystemBase
   { 
     boolean blueAlliance = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue;
 
-    if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
-    hubPose = blueHubPose;
-  } else {
-    hubPose = redHubPose;
-  }
+  
 
     Pose2d startingPose = blueAlliance ? new Pose2d(new Translation2d(Meter.of(1),
                                                                       Meter.of(4)),
@@ -251,14 +247,20 @@ public class SwerveSubsystem extends SubsystemBase
   private double lastError = 0.0;
   public void aimAtTarget() {
 
+if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+    hubPose = blueHubPose;
+  } else {
+    hubPose = redHubPose;
+  }
+  
 Translation2d robotToHub = hubPose.getTranslation().minus(swerveDrive.getPose().getTranslation());
 
 Rotation2d targetAngle;
 
 if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
-  targetAngle = robotToHub.getAngle().minus(Rotation2d.fromDegrees(180));
+  targetAngle = robotToHub.getAngle().minus(Rotation2d.fromDegrees(0));
 } else {
-  targetAngle = robotToHub.getAngle().minus(Rotation2d.fromDegrees(180));
+  targetAngle = robotToHub.getAngle().minus(Rotation2d.fromDegrees(0));
 }
 //Blue = + 180 , Red = - 180 maybe
 
@@ -280,7 +282,7 @@ errorSum += error;
 errorSum = Math.max(-1.0, Math.min(1.0, errorSum));
 
 double kP = 5.0 / 180.0;
-double kI = 0.004;
+double kI = 0.006;
 double kD = 0.01;
 
 double turn = (kP * error) + (kI * errorSum) + (kD * derivative);

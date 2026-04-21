@@ -3,48 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6457602862254017,
-        "y": 7.190840787119857
+        "x": 3.6232218309859157,
+        "y": 3.9870950704225354
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2401252236135947,
-        "y": 7.190840787119857
+        "x": 3.1232218309859157,
+        "y": 3.9870950704225354
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9156171735241503,
-        "y": 5.519624329159212
+        "x": 2.8182647584973166,
+        "y": 3.9870950704225354
       },
       "prevControl": {
-        "x": 2.420068441220655,
-        "y": 5.519624329159212
+        "x": 3.3182647584973166,
+        "y": 3.9870950704225354
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Left Close Shoot Point"
+      "linkedName": "Center Shoot"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "CloseShoot",
-      "waypointRelativePos": 0.9,
-      "endWaypointRelativePos": 1.0,
-      "command": null
-    },
-    {
-      "name": "ZushiRun",
-      "waypointRelativePos": 0.9462686567164179,
-      "endWaypointRelativePos": 1.0,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -55,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -39.59297954465829
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Left Paths",
+  "folder": "Center Paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

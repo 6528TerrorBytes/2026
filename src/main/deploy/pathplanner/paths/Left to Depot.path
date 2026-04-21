@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.467280858676207,
-        "y": 5.081538461538462
+        "x": 2.9156171735241503,
+        "y": 5.519624329159212
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.351760563380282,
-        "y": 6.174753521126761
+        "x": 2.800096878228225,
+        "y": 6.612839388747512
       },
       "isLocked": false,
       "linkedName": "Left Close Shoot Point"
@@ -36,11 +36,11 @@
         "y": 5.887323943657732
       },
       "prevControl": {
-        "x": 1.5804034558600157,
-        "y": 6.064100638954365
+        "x": 1.58040345586002,
+        "y": 6.064100638954368
       },
       "nextControl": {
-        "x": 1.226850065266746,
+        "x": 1.2268500652667456,
         "y": 5.710547248361095
       },
       "isLocked": false,
@@ -118,7 +118,7 @@
   "folder": "Experimental",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -40.236358309273875
+    "rotation": -39.59297954465829
   },
   "useDefaultConstraints": false
 }
