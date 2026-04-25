@@ -20,6 +20,7 @@ import com.ctre.phoenix6.controls.StrobeAnimation;
 import com.ctre.phoenix6.hardware.CANdle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.RGBWColor;
+import com.pathplanner.lib.events.EventScheduler;
 
 import java.awt.Color;
 
@@ -187,10 +188,8 @@ public class Robot extends TimedRobot
     if (m_autonomousCommand != null)
     {
       m_autonomousCommand.cancel();
-    } else
-    {
-      CommandScheduler.getInstance().cancelAll();
-    }
+      //m_autonomousCommand.end(true);
+    } 
   }
 
   /**

@@ -47,20 +47,7 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "CloseShoot",
-      "waypointRelativePos": 1.5044776119402963,
-      "endWaypointRelativePos": 2.0,
-      "command": null
-    },
-    {
-      "name": "ZushiRun",
-      "waypointRelativePos": 1.7492537313432837,
-      "endWaypointRelativePos": 2.0,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

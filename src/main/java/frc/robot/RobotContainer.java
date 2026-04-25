@@ -48,6 +48,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.teleop.TeleopFaceAprilTag;
+import frc.robot.commands.swervedrive.teleop.AutoShooterDistance;
 import frc.robot.commands.swervedrive.teleop.TalonMove;
 import frc.robot.commands.swervedrive.teleop.stupidCommands.ArmMove;
 import frc.robot.commands.swervedrive.teleop.stupidCommands.HoodMove;
@@ -96,7 +97,7 @@ public class RobotContainer
   //final MitoCANdria mito = new MitoCANdria(11);
 
   //private final CANdleSystem m_candleSubsystem = new CANdleSystem();
-  private final BasicSparkMotor m_teethMotor = new BasicSparkMotor(Constants.MotorIDs.intakeTeethID);
+  private final BasicSparkMotor m_intakeRoller = new BasicSparkMotor(Constants.MotorIDs.intakeTeethID);
   private final BasicSparkMotor m_zushiMotor = new BasicSparkMotor(Constants.MotorIDs.zushiID);
   private final TalonMotor m_launcherMotor1 = new TalonMotor(Constants.MotorIDs.launcher1ID, Constants.MotorConfig.talonConfig);
   private final TalonMotor m_launcherMotor2 = new TalonMotor(Constants.MotorIDs.launcher2ID, Constants.MotorConfig.talonConfig);
@@ -173,8 +174,35 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+
+    //Intake Auto
+    NamedCommands.registerCommand("Intake Forward", m_intakeRoller.onIntakeCmd());
+    NamedCommands.registerCommand("Intake Backwards", m_intakeRoller.onOutakeCmd());
+
+    //Zushi Auto
+    NamedCommands.registerCommand("Zushi Forward", new InstantCommand(() ->  m_zushiMotor.onBackwards()));
+    NamedCommands.registerCommand("Zushi Backwards", new InstantCommand(() ->  m_zushiMotor.onForward()));
+    NamedCommands.registerCommand("Zushi Disable", new InstantCommand(() ->  m_zushiMotor.disable()));
+
+    //Shooter Auto
+    NamedCommands.registerCommand("Shooter Forward", 
+    new ParallelCommandGroup(
+      new TalonMove(m_launcherMotor1, -100, true),
+      new TalonMove(m_launcherMotor2, -100, true),
+      new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        new ZushiMove(m_zushiMotor, true, true)
+      )));
+    NamedCommands.registerCommand("Shooter Disable", shooterStopCmd());
+
+    //Hood Auto
+
+    //Intake Arm Auto
+    NamedCommands.registerCommand("Intake Arm Up", armAngleUpCmd());
+    NamedCommands.registerCommand("Intake Arm Vertical", armAngleVerticalCmd());
+    NamedCommands.registerCommand("Intake Arm Down", armAngleDownCmd());
+
     //I initialized it ingerdingus
-    autoChooser = AutoBuilder.buildAutoChooser();
 
     // Configure the trigger bindings
 
@@ -182,70 +210,65 @@ public class RobotContainer
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
 
-    NamedCommands.registerCommand("CloseShoot1", testShootCmd());
-    NamedCommands.registerCommand("Test Command", new InstantCommand(() ->  m_teethMotor.onForward()));
-    //NamedCommands.registerCommand("Test Stop Command", new IntakeMove(m_teethMotor, true, true));
-
-
-
     //ALWAYS AVOID USING EVENTTRIGGERS!!!!!     THEY ARE EVIL!!!! USE NAMED COMMANDS INSTEAD!!!! THEY GOOD!!!!
     //ALSO EVENT MARKERS IN PATHPLANNER ARE EVIL TOO!!!! DO NOT USE!!!
 
 
-    new EventTrigger("IntakeDown").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleIntake, false));
-    new EventTrigger("IntakeUp").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleBack, false));
-    new EventTrigger("IntakeVertical").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleVertical, false));
+    // new EventTrigger("IntakeDown").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleIntake, false));
+    // new EventTrigger("IntakeUp").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleBack, false));
+    // new EventTrigger("IntakeVertical").whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleVertical, false));
 
-    new EventTrigger("IntakeRun").whileTrue(new IntakeMove(m_teethMotor, true, false));
+    // new EventTrigger("IntakeRun").whileTrue(new IntakeMove(m_intakeRoller, true, false));
 
-    new EventTrigger("ZushiRun").whileTrue(new ZushiMove(m_zushiMotor, true, false));
-    new EventTrigger("ReverseZushiRun").whileTrue(new ZushiMove(m_zushiMotor, false, true));
+    // new EventTrigger("ZushiRun").whileTrue(new ZushiMove(m_zushiMotor, true, false));
+    // new EventTrigger("ReverseZushiRun").whileTrue(new ZushiMove(m_zushiMotor, false, true));
 
-    new EventTrigger("FaceAprilTag").whileTrue(new TeleopFaceAprilTag());
+    // new EventTrigger("FaceAprilTag").whileTrue(new TeleopFaceAprilTag());
 
-    new EventTrigger("ZeroGyro").onTrue(new InstantCommand(() -> drivebase.zeroGyroWithAlliance()));
+    // new EventTrigger("ZeroGyro").onTrue(new InstantCommand(() -> drivebase.zeroGyroWithAlliance()));
 
-    new EventTrigger("Launch").whileTrue(new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -100, false),
-      new TalonMove(m_launcherMotor2, -100, false),
-      new SequentialCommandGroup(
-        new WaitCommand(0.5),
-        new ZushiMove(m_zushiMotor, true, false)
-      )
-    ));
+    // new EventTrigger("Launch").whileTrue(new ParallelCommandGroup(
+    //   new TalonMove(m_launcherMotor1, -100, false),
+    //   new TalonMove(m_launcherMotor2, -100, false),
+    //   new SequentialCommandGroup(
+    //     new WaitCommand(0.5),
+    //     new ZushiMove(m_zushiMotor, true, false)
+    //   )
+    // ));
 
-    new EventTrigger("ShooterRun").whileTrue(new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -100, false),
-      new TalonMove(m_launcherMotor2, -100, false)
-    ));
+    // new EventTrigger("ShooterRun").whileTrue(new ParallelCommandGroup(
+    //   new TalonMove(m_launcherMotor1, -100, false),
+    //   new TalonMove(m_launcherMotor2, -100, false)
+    // ));
 
-    new EventTrigger("ReverseShooterRun").whileTrue(new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, 100, false),
-      new TalonMove(m_launcherMotor2, 100, false)
-    ));
+    // new EventTrigger("ReverseShooterRun").whileTrue(new ParallelCommandGroup(
+    //   new TalonMove(m_launcherMotor1, 100, false),
+    //   new TalonMove(m_launcherMotor2, 100, false)
+    // ));
 
-    new EventTrigger("StopShoot").whileTrue(new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -100, true),
-      new TalonMove(m_launcherMotor2, -100, true),
-      new ZushiMove(m_zushiMotor, true, true)
-    ));
+    // new EventTrigger("StopShoot").whileTrue(new ParallelCommandGroup(
+    //   new TalonMove(m_launcherMotor1, -100, true),
+    //   new TalonMove(m_launcherMotor2, -100, true),
+    //   new ZushiMove(m_zushiMotor, true, true)
+    // ));
 
-    new EventTrigger("CloseShoot").whileTrue(new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -100, false),
-      new TalonMove(m_launcherMotor2, -100, false),
-      new HoodMove(m_hood, Constants.Setpoints.hoodAngleCloseShoot)
-    ));
+    // new EventTrigger("CloseShoot").whileTrue(new ParallelCommandGroup(
+    //   new TalonMove(m_launcherMotor1, -100, false),
+    //   new TalonMove(m_launcherMotor2, -100, false),
+    //   new HoodMove(m_hood, Constants.Setpoints.hoodAngle180Spot)
+    // ));
     
 
-    new EventTrigger("FarShoot").whileTrue(new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -100, false),
-      new TalonMove(m_launcherMotor2, -100, false),
-      new HoodMove(m_hood, Constants.Setpoints.hoodAngleFarShoot),
-      new SequentialCommandGroup(
-        new WaitCommand(0.5),
-        new ZushiMove(m_zushiMotor, true, false)
-      )
-    ));
+    // new EventTrigger("FarShoot").whileTrue(new ParallelCommandGroup(
+    //   new TalonMove(m_launcherMotor1, -100, false),
+    //   new TalonMove(m_launcherMotor2, -100, false),
+    //   new HoodMove(m_hood, Constants.Setpoints.hoodAngleFarShoot),
+    //   new SequentialCommandGroup(
+    //     new WaitCommand(0.5),
+    //     new ZushiMove(m_zushiMotor, true, false)
+    //   )
+    // ));
+    autoChooser = AutoBuilder.buildAutoChooser();
 
     //Woah, it allows us to select autos, woah!
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -267,31 +290,28 @@ public class RobotContainer
     new JoystickButton(rightJoystick, 2).whileTrue(new InstantCommand(() -> driveLimit = 0.5));
     new JoystickButton(rightJoystick, 2).onFalse(new InstantCommand(() -> driveLimit = 1));
 
-    new JoystickButton(otherController, 2).whileTrue(new IntakeMove(m_teethMotor, true, true));
+    new JoystickButton(otherController, 2).whileTrue(m_intakeRoller.onIntakeCmd());
     new JoystickButton(otherController, 6).whileTrue(new ParallelCommandGroup(
-      new IntakeMove(m_teethMotor, false, true),
+      new IntakeMove(m_intakeRoller, false),
       new ZushiMove(m_zushiMotor, false, true)
     ));
 
     //new JoystickButton(otherController, 2).whileTrue(new ZushiMove(m_zushiMotor, true));
     
-    //new JoystickMultiAnalogButton(otherController, 3, 0.3, 1).whileTrue(new InstantCommand(() -> System.out.println("Shoinking my sploinking!")));
-
     new JoystickButton(leftJoystick, 1).whileTrue(new TeleopFaceAprilTag());
 
+    new JoystickButton(otherController, 9).whileTrue(new AutoShooterDistance());
+
+    new JoystickButton(rightJoystick, 13).whileTrue(new InstantCommand(() -> System.out.println("dihstance: " + drivebase.getDistance())));
+
     new POVButton(otherController, 0).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle0Spot));
-
     new POVButton(otherController, 90).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle90Spot));
-
-    new POVButton(otherController, 180).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngleCloseShoot));
-
+    new POVButton(otherController, 180).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle180Spot));
     new POVButton(otherController, 270).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle270Spot));
 
-    new JoystickAnalogButton(otherController, 3, 0.3, 1.3).whileTrue(closeShootCmd());
-
-    new JoystickAnalogButton(otherController, 2, 0.3, 1.3).whileTrue(new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -90, true),
-      new TalonMove(m_launcherMotor2, -90, true),
+    new JoystickAnalogButton(otherController, 3, 0.3, 1.3).whileTrue(new ParallelCommandGroup(
+      m_launcherMotor1.shootCmd(),
+      m_launcherMotor2.shootCmd(),
       new SequentialCommandGroup(
         new WaitCommand(0.5),
         new ZushiMove(m_zushiMotor, true, true)
@@ -328,19 +348,30 @@ public class RobotContainer
     // new JoystickButton(leftJoystick, 6).whileTrue(new HoodMove(m_hood, 245));
     // new JoystickButton(leftJoystick, 5).whileTrue(new HoodMove(m_hood, 248));
 
-    new JoystickButton(otherController, 8).whileTrue(new SequentialCommandGroup(
-      //new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleIntake, false), 
-      //new WaitCommand(0.5),
-      new InstantCommand(() -> m_intakeArmMotor.updateConfig(Constants.MotorConfig.armConfig, Constants.PIDPresets.slowArmPreset))
-    ));
+    // new JoystickButton(otherController, 8).whileTrue(new InstantCommand(() -> m_hood.changeTestPoint(-2.5)));
+    // new JoystickButton(otherController, 7).whileTrue(new InstantCommand(() -> m_hood.changeTestPoint(2.5)));
+    // new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> m_hood.test()));
 
-    new JoystickButton(otherController, 7).whileTrue(new SequentialCommandGroup(
-      //new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleIntake, false), 
-      //new WaitCommand(0.5),
-      new InstantCommand(() -> m_intakeArmMotor.updateConfig(Constants.MotorConfig.armConfig, Constants.PIDPresets.regArmPreset))
-    ));
+    // new JoystickButton(rightJoystick, 15).whileTrue(new ParallelCommandGroup(
+    //   new InstantCommand(() -> m_launcherMotor1.changeSpeed(-1)),
+    //   new InstantCommand(() -> m_launcherMotor2.changeSpeed(-1))
+    // ));
+    // new JoystickButton(rightJoystick, 16).whileTrue(new ParallelCommandGroup(
+    //   new InstantCommand(() -> m_launcherMotor1.changeSpeed(1)),
+    //   new InstantCommand(() -> m_launcherMotor2.changeSpeed(1))
+    // ));
+    // new JoystickButton(rightJoystick, 14).whileTrue(new ParallelCommandGroup(
+    //   new InstantCommand(() -> m_launcherMotor1.setPower()),
+    //   new InstantCommand(() -> m_launcherMotor2.setPower())
+    // ));
 
-    new JoystickButton(rightJoystick, 16).whileTrue(new InstantCommand(() -> System.out.println("Hood Encoder Angle: " + m_hood.m_encoder.getPosition())));
+    new JoystickButton(rightJoystick, 12).whileTrue(new InstantCommand(() -> System.out.println("Hood Angle: " + m_hood.testPoint)));
+    new JoystickButton(rightJoystick, 12).whileTrue(new InstantCommand(() -> System.out.println("Speed: " + m_launcherMotor1.speed)));
+
+
+
+
+
 
     Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
@@ -425,25 +456,24 @@ public class RobotContainer
     
   }
 
-  public Command closeShootCmd(){
-    return new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -100, true),
-      new TalonMove(m_launcherMotor2, -100, true),
-      new SequentialCommandGroup(
-        new WaitCommand(0.5),
-        new ZushiMove(m_zushiMotor, true, true)
-      )
-    );
+
+  public Command armAngleUpCmd(){
+    return new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleBack, false);
   }
-  
-  public Command testShootCmd(){
-    return new ParallelCommandGroup(
-      m_launcherMotor1.setVoltageCmd(-10),
-      m_launcherMotor2.setVoltageCmd(-10),
-      new SequentialCommandGroup(
-        new WaitCommand(0.5),
-        m_zushiMotor.setVoltageCmd(-12)
-      )
+
+  public Command armAngleVerticalCmd(){
+    return new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleVertical, false);
+  }
+
+  public Command armAngleDownCmd(){
+    return new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleIntake, false);
+  }
+
+  public Command shooterStopCmd() {
+     return new ParallelCommandGroup(
+      new InstantCommand(() -> m_launcherMotor1.disable()),
+      new InstantCommand(() -> m_launcherMotor2.disable()),
+      new InstantCommand(() ->  m_zushiMotor.disable())
     );
   }
 

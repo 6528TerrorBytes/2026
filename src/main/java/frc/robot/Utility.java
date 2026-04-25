@@ -7,13 +7,19 @@ package frc.robot;
 import java.util.List;
 
 import frc.robot.subsystems.swervedrive.Vision;
+import swervelib.SwerveDrive;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import swervelib.SwerveDrive;
 
 // The data you can get from the Limelight: https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
  
@@ -24,6 +30,12 @@ public final class Utility {
   private static final double m_aprilTagHeight = 112.395; //cm
 
   private static final double m_limelightAngle = 15; //degrees
+
+  Pose2d hubPose;
+  
+  Pose2d blueHubPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+  Pose2d redHubPose = new Pose2d(Units.inchesToMeters(469.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+
 
   public static boolean teamColorIsRed() {
     return DriverStation.getAlliance().get() == DriverStation.Alliance.Red; 
@@ -66,12 +78,17 @@ public final class Utility {
     return clampNum(rotationSpeed, -1, 1) * 0.625;
   }
 
-  public static double getDistance(double TY) {
-    double angleToTarget = m_limelightAngle + TY;
-    double heightDisplacement = m_aprilTagHeight - m_limeLightHeight;
+  public static double getAngle() {
 
-    return heightDisplacement / Math.tan(Math.toRadians(angleToTarget));
+    return 0;
   }
+
+  // public static double getDistance(double TY) {
+  //   double angleToTarget = m_limelightAngle + TY;
+  //   double heightDisplacement = m_aprilTagHeight - m_limeLightHeight;
+
+  //   return heightDisplacement / Math.tan(Math.toRadians(angleToTarget));
+  // }
 
   // public static double getYaw() {
   //   var result = camera.getLatestResult();
@@ -88,4 +105,6 @@ public final class Utility {
 
   //   return target.getYaw();
   // }
+
+  
 }

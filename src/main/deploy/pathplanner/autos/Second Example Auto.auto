@@ -7,25 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Forward"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 4.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Disable"
+            "pathName": "Example Path"
           }
         },
         {
@@ -33,15 +15,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "Left Shoot to Trench"
+                  "waitTime": 1.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Arm Down"
+                  "name": "Intake Forward"
                 }
               }
             ]
@@ -51,6 +33,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Left Autos",
+  "folder": "Experimental",
   "choreoAuto": false
 }

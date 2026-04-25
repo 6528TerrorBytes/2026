@@ -23,6 +23,18 @@ public class BasicSparkMotor extends SubsystemBase {
     m_motor.set(1);
   }
 
+  public Command onIntakeCmd() {
+    return this.runEnd(
+    () -> m_motor.set(-1),
+    () -> m_motor.set(0));
+  }
+
+  public Command onOutakeCmd() {
+    return this.runEnd(
+    () -> m_motor.set(1),
+    () -> m_motor.set(0));
+  }
+
   public void onBackwards() {
     m_motor.set(-1);
   }

@@ -35,6 +35,7 @@ public class WPIArm extends SubsystemBase {
   public WPIArm(int motorID, SparkMaxConfig config, double tolerance, double maxVel, double maxAcc, double p, double i, double d, double s, double g, double v) {
     m_trapezoidConfig = new TrapezoidProfile.Constraints(maxVel, maxAcc);
     m_controller = new ProfiledPIDController(p, i, d, m_trapezoidConfig);
+    m_controller.enableContinuousInput(0, 360);
     m_feedforward = new ArmFeedforward(s, g, v);
 
     m_motor = new SparkMax(motorID, MotorType.kBrushless);

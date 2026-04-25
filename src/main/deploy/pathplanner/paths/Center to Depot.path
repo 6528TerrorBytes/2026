@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 3.575316901408451,
-        "y": 4.050968309859155
+        "y": 3.987
       },
       "prevControl": null,
       "nextControl": {
         "x": 3.325316901408451,
-        "y": 4.050968309859155
+        "y": 3.987
       },
       "isLocked": false,
       "linkedName": null
@@ -98,20 +98,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "IntakeDown",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": 1.0,
-      "command": null
-    },
-    {
-      "name": "IntakeRun",
-      "waypointRelativePos": 2.535593220338983,
-      "endWaypointRelativePos": 4.0,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

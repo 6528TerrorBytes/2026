@@ -11,15 +11,21 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 5.0
+            "name": "Shooter Forward"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Center Shoot End"
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Disable"
           }
         }
       ]

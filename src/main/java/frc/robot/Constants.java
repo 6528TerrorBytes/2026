@@ -75,7 +75,6 @@ public final class Constants
 
   public static final class DrivebaseConstants
   {
-
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
@@ -100,66 +99,14 @@ public final class Constants
     public static final double armOscillateUp = armAngleHorizontal + 70;
     public static final double armOscillateDown = armAngleHorizontal + 20;
 
-    public static final double hoodAngleHorizontal = -18; //13
-    public static final double hoodAngleTest = hoodAngleHorizontal + 202; //215
-    public static final double hoodAngleBack = hoodAngleHorizontal + 235; //248
-    public static final double hoodAngleShoot = hoodAngleHorizontal + 177; //190
-    public static final double hoodAngleFarShoot = hoodAngleHorizontal + 220; //233
-    public static final double hoodAngleCloseShoot = hoodAngleHorizontal + 235; //248
-    public static final double hoodAngle0Spot = hoodAngleHorizontal + 225; //238
-    public static final double hoodAngle90Spot = hoodAngleHorizontal + 230; //243
-    public static final double hoodAngle270Spot = hoodAngleHorizontal + 204; //227
-  }
-
-  public static class ShooterConstants {
-    public static final double minAngle = 0;
-    public static final double maxAngle = 70;
-
-    // You can see graphs in REV Hardware Client, Run -> View graph,
-    // with Duty Cycle Position and Duty Cycle Velocity
-
-    // PID controller
-    public static final double tiltP = 0.015;
-    public static final double tiltI = 0.0000001;
-    public static final double tiltD = 0;
-    public static final double speed = 1;
-    public static final double tolerance = 2;
-
-    // Angle for bringing the arm all the way up
-    public static final double angleAtVertical = 1;
-
-
-    // Aiming constants
-    // Angle of the arm from vertical in radians
-    public static final double limelightAngle = 60 * (Math.PI / 180);
-    // In meters, the distance from the AprilTag to the speaker
-    public static final double distTagToSpeaker = 0.65;
-
-    // Aims to lowTagToSpeaker when z is greater than aimLowerStart
-    public static final double lowTagToSpeaker = 0.62;
-    public static final double aimLowerStart = 100;
-
-    // Initial velocity in meters per second of the shooter
-    public static final double initialVel = 8.35;
-    public static final double gravity = 9.81;
-
-    // Length of the shooter in meters
-    public static final double shooterLength = 0.3937;
-
-    public static final double encoderAngleToHorizontal = 87;
-
-
-    // Constants for rotating the bot horizontally to face AprilTag
-    // Dividers for the cubic and linear parts, respectively
-    public static final double cubicDivider = 5000;
-    public static final double linearDivider = 25;
-    
-    // Place at which the two functions would cross
-    public static final double crossPoint = Math.sqrt(cubicDivider / linearDivider); 
-
-    // After calculations, multiply the speed by this speed scale
-    public static final double speedScale = 0.35;
-    public static final double afterCapMult = 0.5;
+    public static final double hoodAngleHorizontal = 0; //13
+    public static final double hoodAngleBack = hoodAngleHorizontal; //248   75
+    public static final double hoodAngleShoot = hoodAngleHorizontal; //190
+    public static final double hoodAngleFarShoot = hoodAngleHorizontal; //233
+    public static final double hoodAngle0Spot = hoodAngleHorizontal - 20; //238
+    public static final double hoodAngle90Spot = hoodAngleHorizontal - 10; //243
+    public static final double hoodAngle180Spot = hoodAngleHorizontal; //248
+    public static final double hoodAngle270Spot = hoodAngleHorizontal + 10; //227
   }
 
   public static final class AprilTags {
@@ -320,10 +267,10 @@ public final class Constants
 
     static {
       talonConfig.Slot0.kP = 0.47; // 0.47
-      talonConfig.Slot0.kI = 0; // 0.01
-      talonConfig.Slot0.kD = 0; // 0.2
+      talonConfig.Slot0.kI = 0; // 0
+      talonConfig.Slot0.kD = 0; // 0
       talonConfig.Slot0.kS = 0.11; // 0.11
-      talonConfig.Slot0.kV = 0.11536; // Feedforward (Volts per RPS) 0.11536
+      talonConfig.Slot0.kV = 0.11739; // Feedforward (Volts per RPS) 0.11536
     }
   }
 

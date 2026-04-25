@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.242024647887324,
-        "y": 1.86330985915493
+        "y": 1.8633098591549297
       },
       "isLocked": false,
       "linkedName": "Right Short Grab Point"
@@ -54,7 +54,7 @@
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0.7462686567164166,
-      "maxWaypointRelativePos": 1.3253731343283583,
+      "maxWaypointRelativePos": 1.25,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 1.0,
@@ -66,33 +66,14 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "IntakeRun",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": 2.0,
-      "command": null
-    },
-    {
-      "name": "CloseShoot",
-      "waypointRelativePos": 1.3,
-      "endWaypointRelativePos": 2.0,
-      "command": null
-    },
-    {
-      "name": "ZushiRun",
-      "waypointRelativePos": 1.85,
-      "endWaypointRelativePos": 2.0,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
-    "unlimited": false
+    "unlimited": true
   },
   "goalEndState": {
     "velocity": 0,

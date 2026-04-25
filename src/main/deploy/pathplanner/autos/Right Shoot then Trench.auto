@@ -11,15 +11,40 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 5.0
+            "name": "Shooter Forward"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "Right Shoot to Trench"
+            "waitTime": 4.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter Disable"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Shoot to Trench"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Arm Down"
+                }
+              }
+            ]
           }
         }
       ]

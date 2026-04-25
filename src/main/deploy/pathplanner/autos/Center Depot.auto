@@ -5,9 +5,34 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Center to Depot"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center to Depot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Arm Down"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Forward"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Disable"
           }
         },
         {
@@ -17,27 +42,21 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Center Vertical Arm"
+            "name": "Shooter Forward"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 2.0
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Center Depot Shoot End"
+            "name": "Intake Arm Vertical"
           }
         }
       ]

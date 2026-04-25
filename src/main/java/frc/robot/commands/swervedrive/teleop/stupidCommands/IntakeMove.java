@@ -15,13 +15,10 @@ public class IntakeMove extends Command {
 
   private boolean m_reverse;
 
-  private boolean m_stop;
-
-  public IntakeMove(BasicSparkMotor intakeMotor, boolean reverse, boolean stop) {
+  public IntakeMove(BasicSparkMotor intakeMotor, boolean reverse) {
     m_intakeMotor = intakeMotor;
     m_reverse = reverse;
     m_stopTime = 0;
-    m_stop = stop;
 
     addRequirements(intakeMotor);
   }
@@ -44,9 +41,7 @@ public class IntakeMove extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    //if (m_stop) {
       m_intakeMotor.disable();
-    //}
   }
 
   @Override

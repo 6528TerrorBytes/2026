@@ -19,8 +19,12 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.ResetMode.*;
 import frc.robot.Constants;
+import frc.robot.commands.swervedrive.teleop.AutoShooterDistance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TalonMotor extends SubsystemBase {
@@ -34,6 +38,7 @@ public class TalonMotor extends SubsystemBase {
 
     // this mayhaps cause problems later
     //m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //m_disable = true;
     m_motor.getConfigurator().apply(constants);
     SmartDashboard.putNumber("Shooter Speed", m_motor.getVelocity().getValueAsDouble());
   }
@@ -57,24 +62,30 @@ public class TalonMotor extends SubsystemBase {
     //m_motor.set(0);
   }
 
-  public void setPower(double rps) {
+  public double speed = 50;
+
+  public void setPower() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(rps));
+    m_motor.setControl(new VelocityVoltage(speed));
+  }
+
+  public void changeSpeed(double change) {
+    speed += change;
   }
 
   public void forwards() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(100)); //was 135
-    //m_motor.set(1);
+    m_motor.setControl(new VelocityVoltage(-50)); //was 135
   }
 
   public void backwards() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(-100));
-    //m_motor.set(-1);
-  }
+    m_motor.setControl(new VelocityVoltage(50));
+  } 
 
-  public Command setVoltageCmd(double volts){
-    return this.runEnd(() -> m_motor.setVoltage(volts), () -> m_motor.setVoltage(0));
+  public Command shootCmd(){
+    return this.runEnd(
+      () -> setPower(),
+      () -> disable());
   }
 }

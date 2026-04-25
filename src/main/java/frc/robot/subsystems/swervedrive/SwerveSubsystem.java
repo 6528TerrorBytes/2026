@@ -21,6 +21,8 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -60,10 +62,10 @@ public class SwerveSubsystem extends SubsystemBase
 {
 
   //Do something with this lol
-  Pose2d hubPose;
+  static Pose2d hubPose;
   
-  Pose2d blueHubPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0));
-  Pose2d redHubPose = new Pose2d(Units.inchesToMeters(469.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+  static Pose2d blueHubPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+  static Pose2d redHubPose = new Pose2d(Units.inchesToMeters(469.11),Units.inchesToMeters(158.84), new Rotation2d(0));
 
   public static double newRotation = 0;
 
@@ -266,8 +268,8 @@ if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get()
 
 double currentYaw = swerveDrive.getPose().getRotation().getDegrees();
 
-System.out.println("Target: " + targetAngle.getDegrees());
-System.out.println("Yaw: " + currentYaw);
+// System.out.println("Target: " + targetAngle.getDegrees());
+// System.out.println("Yaw: " + currentYaw);
 
 // shortest-path error [-180, 180]
 double error = Math.IEEEremainder(targetAngle.getDegrees() - currentYaw, 360.0);
@@ -297,12 +299,89 @@ double turn = (kP * error) + (kI * errorSum) + (kD * derivative);
 // clamp to joystick range
 newRotation = Math.max(-1.0, Math.min(1.0, turn));
 
-System.out.println("Turn: " + turn);
-System.out.println("Error: " + error);
-System.out.println("Rotate: " + newRotation);
+// System.out.println("Turn: " + turn);
+// System.out.println("Error: " + error);
+// System.out.println("Rotate: " + newRotation);
 
   }
 
+  public double getDistance() {
+
+    if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+      hubPose = blueHubPose;
+    } else {
+      hubPose = redHubPose;
+    }
+
+    double distanceFromHub = swerveDrive.getPose().getTranslation().getDistance(hubPose.getTranslation());
+
+    return distanceFromHub;
+  }
+
+  public double getHoodAngle() {
+    //Interpolation for Angle
+    InterpolatingDoubleTreeMap hoodTable = new InterpolatingDoubleTreeMap();
+    //Key is distance from Hub in Meters calculated from field estPose and hubPose
+    //Value is the angle of the shooter hood
+    hoodTable.put(1.8, 0.0);
+    hoodTable.put(1.98, 0.0);
+    hoodTable.put(2.17, 0.0);
+    hoodTable.put(2.35, 15.0);
+    hoodTable.put(2.54, 15.0); 
+    hoodTable.put(2.72, 15.0);
+    hoodTable.put(2.9, 20.0);
+    hoodTable.put(3.09, 20.0);
+    hoodTable.put(3.27, 20.0);
+    hoodTable.put(3.46, 20.0);
+    hoodTable.put(3.64, 20.0);  
+    hoodTable.put(3.82, 20.0);
+    hoodTable.put(4.01, 20.0);
+    hoodTable.put(4.19, 20.0);
+    hoodTable.put(4.38, 20.0);
+    hoodTable.put(4.56, 20.0);
+    hoodTable.put(4.74, 20.0);
+
+    //Gets Distance from Hub to Robot Center
+    double currentDistance = getDistance();
+
+    //Uses distance to get a hood angle relative to the Hub
+    double targetAngle = hoodTable.get(currentDistance);
+
+    return targetAngle;
+  }
+
+  public double getShooterRPS() {
+    //Interpolation for RPS
+    InterpolatingDoubleTreeMap shooterTable = new InterpolatingDoubleTreeMap();
+    //Key is distance from Hub in Meters calculated from field estPose and hubPose
+    //Value is the RPS of the shooter
+    shooterTable.put(1.8, 40.0);
+    shooterTable.put(1.98, 40.0);
+    shooterTable.put(2.17, 42.5);
+    shooterTable.put(2.35, 42.5);
+    shooterTable.put(2.54, 45.0); 
+    shooterTable.put(2.72, 46.0);
+    shooterTable.put(2.9, 47.0);
+    shooterTable.put(3.09, 48.0);
+    shooterTable.put(3.27, 49.0);
+    shooterTable.put(3.46, 50.0);
+    shooterTable.put(3.64, 50.0);  
+    shooterTable.put(3.82, 51.0);
+    shooterTable.put(4.01,53.0);
+    shooterTable.put(4.19, 55.0);
+    shooterTable.put(4.38, 57.0);
+    shooterTable.put(4.56, 62.0);
+    shooterTable.put(4.74, 64.0);
+
+    //Gets Distance from Hub to Robot Center
+    double currentDistance = getDistance();
+
+    //Uses distance to get a hood angle relative to the Hub
+    double shooterRPS = shooterTable.get(currentDistance);
+
+    return shooterRPS;
+  }
+  
   /**
    * Get the path follower with events.
    *

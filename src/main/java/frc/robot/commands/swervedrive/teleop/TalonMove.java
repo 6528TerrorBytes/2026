@@ -32,7 +32,6 @@ public class TalonMove extends Command {
   @Override
   public void initialize() {
     m_stopTime = 0;
-    m_stupidMotor.setPower(m_power);
   }
 
   @Override

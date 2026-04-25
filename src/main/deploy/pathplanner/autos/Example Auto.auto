@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Shoot"
+            "pathName": "Example Path"
           }
         },
         {
@@ -17,9 +17,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Intake Forward"
+          }
+        },
+        {
           "type": "wait",
           "data": {
-            "waitTime": 4.0
+            "waitTime": 2.0
           }
         },
         {
@@ -35,7 +41,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left Shoot to Trench"
+                  "pathName": "Copy of Example Path"
                 }
               },
               {
@@ -46,11 +52,17 @@
               }
             ]
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Disable"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Left Autos",
+  "folder": "Experimental",
   "choreoAuto": false
 }
