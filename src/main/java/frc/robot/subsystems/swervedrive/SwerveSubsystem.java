@@ -355,23 +355,23 @@ newRotation = Math.max(-1.0, Math.min(1.0, turn));
     InterpolatingDoubleTreeMap shooterTable = new InterpolatingDoubleTreeMap();
     //Key is distance from Hub in Meters calculated from field estPose and hubPose
     //Value is the RPS of the shooter
-    shooterTable.put(1.8, 40.0);
-    shooterTable.put(1.98, 40.0);
-    shooterTable.put(2.17, 42.5);
-    shooterTable.put(2.35, 42.5);
-    shooterTable.put(2.54, 45.0); 
-    shooterTable.put(2.72, 46.0);
-    shooterTable.put(2.9, 47.0);
-    shooterTable.put(3.09, 48.0);
-    shooterTable.put(3.27, 49.0);
-    shooterTable.put(3.46, 50.0);
-    shooterTable.put(3.64, 50.0);  
-    shooterTable.put(3.82, 51.0);
-    shooterTable.put(4.01,53.0);
-    shooterTable.put(4.19, 55.0);
-    shooterTable.put(4.38, 57.0);
-    shooterTable.put(4.56, 62.0);
-    shooterTable.put(4.74, 64.0);
+    shooterTable.put(1.80, -40.0);
+    shooterTable.put(1.98, -40.0);
+    shooterTable.put(2.17, -42.5);
+    shooterTable.put(2.35, -42.5);
+    shooterTable.put(2.54, -45.0); 
+    shooterTable.put(2.72, -46.0);
+    shooterTable.put(2.90, -47.0);
+    shooterTable.put(3.09, -48.0);
+    shooterTable.put(3.27, -49.0);
+    shooterTable.put(3.46, -50.0);
+    shooterTable.put(3.64, -50.0);  
+    shooterTable.put(3.82, -51.0);
+    shooterTable.put(4.01, -53.0);
+    shooterTable.put(4.19, -55.0);
+    shooterTable.put(4.38, -57.0);
+    shooterTable.put(4.56, -62.0);
+    shooterTable.put(4.74, -64.0);
 
     //Gets Distance from Hub to Robot Center
     double currentDistance = getDistance();
@@ -381,7 +381,7 @@ newRotation = Math.max(-1.0, Math.min(1.0, turn));
 
     return shooterRPS;
   }
-  
+
   /**
    * Get the path follower with events.
    *

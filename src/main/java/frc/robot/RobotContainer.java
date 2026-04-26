@@ -187,8 +187,8 @@ public class RobotContainer
     //Shooter Auto
     NamedCommands.registerCommand("Shooter Forward", 
     new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -100, true),
-      new TalonMove(m_launcherMotor2, -100, true),
+      new TalonMove(m_launcherMotor1, -50, true),
+      new TalonMove(m_launcherMotor2, -50, true),
       new SequentialCommandGroup(
         new WaitCommand(0.5),
         new ZushiMove(m_zushiMotor, true, true)
@@ -302,9 +302,7 @@ public class RobotContainer
 
     new JoystickButton(otherController, 9).whileTrue(new AutoShooterDistance());
 
-    new JoystickButton(rightJoystick, 13).whileTrue(new InstantCommand(() -> System.out.println("dihstance: " + drivebase.getDistance())));
-
-    new POVButton(otherController, 0).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle0Spot));
+    new POVButton(otherController, 0).whileTrue(new HoodMove(m_hood, RobotContainer.drivebase.Get));
     new POVButton(otherController, 90).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle90Spot));
     new POVButton(otherController, 180).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle180Spot));
     new POVButton(otherController, 270).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle270Spot));
@@ -350,7 +348,7 @@ public class RobotContainer
 
     // new JoystickButton(otherController, 8).whileTrue(new InstantCommand(() -> m_hood.changeTestPoint(-2.5)));
     // new JoystickButton(otherController, 7).whileTrue(new InstantCommand(() -> m_hood.changeTestPoint(2.5)));
-    // new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> m_hood.test()));
+    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> m_hood.test()));
 
     // new JoystickButton(rightJoystick, 15).whileTrue(new ParallelCommandGroup(
     //   new InstantCommand(() -> m_launcherMotor1.changeSpeed(-1)),
@@ -365,9 +363,9 @@ public class RobotContainer
     //   new InstantCommand(() -> m_launcherMotor2.setPower())
     // ));
 
-    new JoystickButton(rightJoystick, 12).whileTrue(new InstantCommand(() -> System.out.println("Hood Angle: " + m_hood.testPoint)));
-    new JoystickButton(rightJoystick, 12).whileTrue(new InstantCommand(() -> System.out.println("Speed: " + m_launcherMotor1.speed)));
-
+    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Hood Angle: " + RobotContainer.drivebase.getHoodAngle())));
+    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Speed: " + RobotContainer.drivebase.getShooterRPS())));
+    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Distance: " + RobotContainer.drivebase.getDistance())));
 
 
 

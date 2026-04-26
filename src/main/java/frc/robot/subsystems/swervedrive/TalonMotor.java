@@ -19,6 +19,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.ResetMode.*;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.swervedrive.teleop.AutoShooterDistance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -66,7 +67,7 @@ public class TalonMotor extends SubsystemBase {
 
   public void setPower() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(speed));
+    m_motor.setControl(new VelocityVoltage(RobotContainer.drivebase.getShooterRPS()));
   }
 
   public void changeSpeed(double change) {

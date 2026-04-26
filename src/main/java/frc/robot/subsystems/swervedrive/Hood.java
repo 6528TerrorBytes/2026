@@ -5,6 +5,7 @@
 package frc.robot.subsystems.swervedrive;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class Hood extends WPIArm {
   public Hood() {
@@ -19,7 +20,7 @@ public class Hood extends WPIArm {
     setGoal(Constants.Setpoints.hoodAngleBack);
   }
 
-  public double testPoint = 0;
+  public double setPoint = 0;
 
   @Override
   public double getAngleFromHorizontal(double encoderPos) {
@@ -27,10 +28,10 @@ public class Hood extends WPIArm {
   }
 
   public void changeTestPoint(double change) {
-    testPoint += change;
+    setPoint += change;
   }
 
   public void test() {
-    setGoal(testPoint);
+    setGoal(RobotContainer.drivebase.getHoodAngle());
   }
 }

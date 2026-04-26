@@ -7,6 +7,7 @@ package frc.robot.commands.swervedrive.teleop.stupidCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.swervedrive.Hood;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -45,6 +46,9 @@ public class HoodMove extends Command {
     //   m_arm.enable();
     //   m_arm.setGoal(m_setPoint);
     // }
+
+    m_hood.setGoal(RobotContainer.drivebase.getHoodAngle());
+
     if (hoodStop) {
       m_hood.disable();
     }
