@@ -90,23 +90,20 @@ public final class Constants
   }
 
   public static final class Setpoints {
-    public static final double armAngleHorizontal = 148; //Change this to whatever it is when horizontal, 135
-    public static final double armAngleIntake = armAngleHorizontal - 26; //Change to arm angle when given no power
-    public static final double armAngleBack = armAngleHorizontal + 104; //229.3ish is hard-stop
-    public static final double armAngleVertical = armAngleHorizontal + 90;
+    public static final double armAngleHorizontal = 0; //Change this to whatever it is when horizontal, 135
+    public static final double armAngleIntake = armAngleHorizontal - 147; //Change to arm angle when given no power
+    public static final double armAngleBack = armAngleHorizontal - 4; //
+    public static final double armAngleVertical = armAngleHorizontal - 40;
     
     public static final double armAngleStartUp = armAngleHorizontal + 115; //Angle that arm moves to upon being enabled
     public static final double armOscillateUp = armAngleHorizontal + 70;
     public static final double armOscillateDown = armAngleHorizontal + 20;
 
-    public static final double hoodAngleHorizontal = 0; //13
-    public static final double hoodAngleBack = hoodAngleHorizontal; //248   75
-    public static final double hoodAngleShoot = hoodAngleHorizontal; //190
-    public static final double hoodAngleFarShoot = hoodAngleHorizontal; //233
-    public static final double hoodAngle0Spot = hoodAngleHorizontal - 20; //238
-    public static final double hoodAngle90Spot = hoodAngleHorizontal - 10; //243
-    public static final double hoodAngle180Spot = hoodAngleHorizontal; //248
-    public static final double hoodAngle270Spot = hoodAngleHorizontal + 10; //227
+    public static final double hoodAngleHorizontal = 0; //Hard Stop Position
+    public static final double hoodAngle0Spot = hoodAngleHorizontal - 7.5;  //Close Angle
+    public static final double hoodAngle90Spot = hoodAngleHorizontal - 15;  //Mid Angle
+    public static final double hoodAngle180Spot = hoodAngleHorizontal - 20; //Far Angle
+    public static final double hoodAngle270Spot = hoodAngleHorizontal - 30; //Feed Angle
   }
 
   public static final class AprilTags {

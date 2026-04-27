@@ -63,23 +63,29 @@ public class TalonMotor extends SubsystemBase {
     //m_motor.set(0);
   }
 
-  public double speed = 0;
-
   public void setFeedPower() {
-    speed = -100;
-}
-
-  public void setAutoPower() {
-    speed = RobotContainer.drivebase.getShooterRPS();
-}
-
-  public void setPower() {
     m_disable = false;
-      m_motor.setControl(new VelocityVoltage(speed));
+    m_motor.setControl(new VelocityVoltage(-100));
   }
 
-  public void changeSpeed(double change) {
-    speed += change;
+  public void setClosePower() {
+    m_disable = false;
+    m_motor.setControl(new VelocityVoltage(-42.5));
+  }
+
+  public void setMidPower() {
+    m_disable = false;
+    m_motor.setControl(new VelocityVoltage(-50));
+  }
+
+  public void setFarPower() {
+    m_disable = false;
+    m_motor.setControl(new VelocityVoltage(-60));
+  }
+
+  public void setAutoPower() {
+    m_disable = false;
+    m_motor.setControl(new VelocityVoltage(RobotContainer.drivebase.getShooterRPS()));
   }
 
   public void forwards() {
@@ -92,19 +98,33 @@ public class TalonMotor extends SubsystemBase {
     m_motor.setControl(new VelocityVoltage(50)); //was 100
   } 
 
-  public Command setFeedPowerCmd() {
-    return this.runOnce(
-      () -> setFeedPower());
-}
+  public Command feedCmd() {
+    return this.runEnd(
+    () -> setFeedPower(),
+    () -> disable());
+  }
 
-  public Command setAutoPowerCmd() {
-    return this.runOnce(
-    () -> setAutoPower());
-}
+  public Command farCmd() {
+    return this.runEnd(
+    () -> setFarPower(),
+    () -> disable());
+  }
+
+  public Command midCmd() {
+    return this.runEnd(
+    () -> setMidPower(),
+    () -> disable());
+  }
+
+  public Command closeCmd() {
+    return this.runEnd(
+    () -> setClosePower(),
+    () -> disable());
+  }
 
   public Command shootCmd() {
     return this.runEnd(
-      () -> setPower(),
+      () -> setAutoPower(),
       () -> disable());
   }
 

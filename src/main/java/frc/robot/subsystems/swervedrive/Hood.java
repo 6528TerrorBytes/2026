@@ -17,7 +17,7 @@ public class Hood extends WPIArm {
     );
 
     //enable();
-    setGoal(Constants.Setpoints.hoodAngleBack);
+    setGoal(Constants.Setpoints.hoodAngleHorizontal);
   }
 
   public double setPoint = 0;

@@ -17,10 +17,13 @@ public class HoodMove extends Command {
 
   public static boolean hoodStop = false;
 
+  private boolean m_autoAim;
+
   /** Creates a new ArmMove. */
-  public HoodMove(Hood hood, double setPoint) {
+  public HoodMove(Hood hood, double setPoint, boolean autoAim) {
    m_hood = hood;
    m_setPoint = setPoint;
+   m_autoAim = autoAim;
     addRequirements(hood);
   }
 
@@ -46,8 +49,9 @@ public class HoodMove extends Command {
     //   m_arm.enable();
     //   m_arm.setGoal(m_setPoint);
     // }
-
-    m_hood.setGoal(RobotContainer.drivebase.getHoodAngle());
+    if (m_autoAim) {
+      m_hood.setGoal(RobotContainer.drivebase.getHoodAngle());
+    }
 
     if (hoodStop) {
       m_hood.disable();

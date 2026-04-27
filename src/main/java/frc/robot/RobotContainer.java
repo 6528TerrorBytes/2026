@@ -187,8 +187,9 @@ public class RobotContainer
     //Shooter Auto
     NamedCommands.registerCommand("Shooter Forward", 
     new ParallelCommandGroup(
-      new TalonMove(m_launcherMotor1, -50, true),
-      new TalonMove(m_launcherMotor2, -50, true),
+      new HoodMove(m_hood, Constants.Setpoints.hoodAngle180Spot, false),
+      new TalonMove(m_launcherMotor1, -42, true),
+      new TalonMove(m_launcherMotor2, -42, true),
       new SequentialCommandGroup(
         new WaitCommand(0.5),
         new ZushiMove(m_zushiMotor, true, true)
@@ -285,12 +286,17 @@ public class RobotContainer
   {
     //new JoystickButton(leftJoystick, 5).whileTrue(new InstantCommand(() -> System.out.println(Utility.getYaw())));
 
+    //Zero Robot, doesn't work anymore?
     new JoystickButton(rightJoystick, 4).whileTrue(new InstantCommand(() -> drivebase.zeroGyroWithAlliance()));
     
+    //Drive Speed Change
     new JoystickButton(rightJoystick, 2).whileTrue(new InstantCommand(() -> driveLimit = 0.5));
     new JoystickButton(rightJoystick, 2).onFalse(new InstantCommand(() -> driveLimit = 1));
 
+    //B button; Intake in
     new JoystickButton(otherController, 2).whileTrue(m_intakeRoller.onIntakeCmd());
+
+    //Intake/Feed out
     new JoystickButton(otherController, 6).whileTrue(new ParallelCommandGroup(
       new IntakeMove(m_intakeRoller, false),
       new ZushiMove(m_zushiMotor, false, true)
@@ -298,25 +304,54 @@ public class RobotContainer
 
     //new JoystickButton(otherController, 2).whileTrue(new ZushiMove(m_zushiMotor, true));
     
+    //Automatically faces the center hub
     new JoystickButton(leftJoystick, 1).whileTrue(new TeleopFaceAprilTag());
 
+    //Left Trigger; Scopes in the robot, does auto hood adjustment and shooter speed adjustment based off distance
     new JoystickAnalogButton(otherController, 2, 0.3, 1.3).whileTrue(new ParallelCommandGroup(
       new AutoShooterDistance(),
-      new HoodMove(m_hood, RobotContainer.drivebase.getHoodAngle()),
-      m_launcherMotor1.setAutoPowerCmd(),
-      m_launcherMotor2.setAutoPowerCmd()
-      ));
-
-    new POVButton(otherController, 0).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle0Spot));
-    new POVButton(otherController, 90).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle90Spot));
-    new POVButton(otherController, 180).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle180Spot));
-    new POVButton(otherController, 270).whileTrue(new ParallelCommandGroup(
-      new HoodMove(m_hood, -30),
-      m_launcherMotor1.setFeedPowerCmd(),
-      m_launcherMotor2.setFeedPowerCmd()
-    
+      new HoodMove(m_hood, RobotContainer.drivebase.getHoodAngle(), true)
     ));
 
+    //Shooting Preset adjustments via D-pad
+    new POVButton(otherController, 0).whileTrue(new ParallelCommandGroup(
+      new HoodMove(m_hood, -7.5, false),
+      m_launcherMotor1.closeCmd(),
+      m_launcherMotor2.closeCmd(),
+      new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        new ZushiMove(m_zushiMotor, true, true)
+      )
+    ));
+    new POVButton(otherController, 90).whileTrue(new ParallelCommandGroup(
+      new HoodMove(m_hood, -15, false),
+      m_launcherMotor1.midCmd(),
+      m_launcherMotor2.midCmd(),
+      new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        new ZushiMove(m_zushiMotor, true, true)
+      )
+    ));
+    new POVButton(otherController, 180).whileTrue(new ParallelCommandGroup(
+      new HoodMove(m_hood, Constants.Setpoints.hoodAngle180Spot, false),
+      m_launcherMotor1.farCmd(),
+      m_launcherMotor2.farCmd(),
+      new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        new ZushiMove(m_zushiMotor, true, true)
+      )
+    ));
+    new POVButton(otherController, 270).whileTrue(new ParallelCommandGroup(
+      new HoodMove(m_hood, Constants.Setpoints.hoodAngle270Spot, false),
+      m_launcherMotor1.feedCmd(),
+      m_launcherMotor2.feedCmd(),
+      new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        new ZushiMove(m_zushiMotor, true, true)
+      )
+    ));
+
+    //Right Trigger shoot
     new JoystickAnalogButton(otherController, 3, 0.3, 1.3).whileTrue(new ParallelCommandGroup(
       m_launcherMotor1.shootCmd(),
       m_launcherMotor2.shootCmd(),
@@ -327,61 +362,20 @@ public class RobotContainer
     ));
 
     //new JoystickButton(otherController, 3).whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleTest));
+
+    //X, A, Y buttons; Arm Angle Positions, Vertical, All the way down, and All the way up.
     new JoystickButton(otherController, 3).whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleVertical, false));
     new JoystickButton(otherController, 1).whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleIntake, false));
     new JoystickButton(otherController, 4).whileTrue(new ArmMove(m_intakeArmMotor, Constants.Setpoints.armAngleBack, false));
-    //new JoystickButton(otherController, 7).whileTrue(new InstantCommand(() -> m_intakeArmMotor.disable()));
-    //new JoystickButton(otherController, 8).whileTrue(new InstantCommand(() -> m_intakeArmMotor.enable()));
 
-    //new JoystickButton(otherController, 8).whileTrue(new HoodMove(m_hood, Utility.getTY()));
 
-    new JoystickButton(otherController, 5).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngleBack));
-
-    //new JoystickButton(leftJoystick, 3).whileTrue(new InstantCommand(() -> System.out.println(Utility.getDistance(Utility.getTY()))));
-
-    // new JoystickButton(rightJoystick, 15).whileTrue(new HoodMove(m_hood, 209));
-    // new JoystickButton(rightJoystick, 14).whileTrue(new HoodMove(m_hood, 212));
-    // new JoystickButton(rightJoystick, 13).whileTrue(new HoodMove(m_hood, 215));
-    // new JoystickButton(rightJoystick, 12).whileTrue(new HoodMove(m_hood, 218));
-
-    // new JoystickButton(leftJoystick, 15).whileTrue(new HoodMove(m_hood, 221));
-    // new JoystickButton(leftJoystick, 14).whileTrue(new HoodMove(m_hood, 224));
-    // new JoystickButton(leftJoystick, 13).whileTrue(new HoodMove(m_hood, 227));
-    // new JoystickButton(leftJoystick, 12).whileTrue(new HoodMove(m_hood, 230));
-
-    // new JoystickButton(leftJoystick, 10).whileTrue(new HoodMove(m_hood, 233));
-    // new JoystickButton(leftJoystick, 9).whileTrue(new HoodMove(m_hood, 236));
-    // new JoystickButton(leftJoystick, 8).whileTrue(new HoodMove(m_hood, 239));
-    // new JoystickButton(leftJoystick, 7).whileTrue(new HoodMove(m_hood, 242));
-    // new JoystickButton(leftJoystick, 6).whileTrue(new HoodMove(m_hood, 245));
-    // new JoystickButton(leftJoystick, 5).whileTrue(new HoodMove(m_hood, 248));
-
-    // new JoystickButton(otherController, 8).whileTrue(new InstantCommand(() -> m_hood.changeTestPoint(-2.5)));
-    // new JoystickButton(otherController, 7).whileTrue(new InstantCommand(() -> m_hood.changeTestPoint(2.5)));
-    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> m_hood.test()));
-
-    // new JoystickButton(rightJoystick, 15).whileTrue(new ParallelCommandGroup(
-    //   new InstantCommand(() -> m_launcherMotor1.changeSpeed(-1)),
-    //   new InstantCommand(() -> m_launcherMotor2.changeSpeed(-1))
-    // ));
-    // new JoystickButton(rightJoystick, 16).whileTrue(new ParallelCommandGroup(
-    //   new InstantCommand(() -> m_launcherMotor1.changeSpeed(1)),
-    //   new InstantCommand(() -> m_launcherMotor2.changeSpeed(1))
-    // ));
-    // new JoystickButton(rightJoystick, 14).whileTrue(new ParallelCommandGroup(
-    //   new InstantCommand(() -> m_launcherMotor1.setPower()),
-    //   new InstantCommand(() -> m_launcherMotor2.setPower())
-    // ));
+    //Left Bumper, Hood angle all the way back
+    new JoystickButton(otherController, 5).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngleHorizontal, false));
 
     new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Hood Angle: " + RobotContainer.drivebase.getHoodAngle())));
     new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("AutoSpeed: " + RobotContainer.drivebase.getShooterRPS())));
     new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Distance: " + RobotContainer.drivebase.getDistance())));
-    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("SpeedVar: " + m_launcherMotor1.speed)));
-
-
-
-
-
+    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Attempted Hood Angle: " + m_hood.m_encoder.getPosition())));
 
 
     Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
