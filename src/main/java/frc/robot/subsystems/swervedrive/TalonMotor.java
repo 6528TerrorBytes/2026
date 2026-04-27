@@ -63,11 +63,19 @@ public class TalonMotor extends SubsystemBase {
     //m_motor.set(0);
   }
 
-  public double speed = 50;
+  public double speed = 0;
+
+  public void setFeedPower() {
+    speed = -100;
+}
+
+  public void setAutoPower() {
+    speed = RobotContainer.drivebase.getShooterRPS();
+}
 
   public void setPower() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(RobotContainer.drivebase.getShooterRPS()));
+      m_motor.setControl(new VelocityVoltage(speed));
   }
 
   public void changeSpeed(double change) {
@@ -76,17 +84,28 @@ public class TalonMotor extends SubsystemBase {
 
   public void forwards() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(-50)); //was 135
+    m_motor.setControl(new VelocityVoltage(-50)); //was 100
   }
 
   public void backwards() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(50));
+    m_motor.setControl(new VelocityVoltage(50)); //was 100
   } 
 
-  public Command shootCmd(){
+  public Command setFeedPowerCmd() {
+    return this.runOnce(
+      () -> setFeedPower());
+}
+
+  public Command setAutoPowerCmd() {
+    return this.runOnce(
+    () -> setAutoPower());
+}
+
+  public Command shootCmd() {
     return this.runEnd(
       () -> setPower(),
       () -> disable());
   }
+
 }

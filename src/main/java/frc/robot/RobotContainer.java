@@ -300,12 +300,22 @@ public class RobotContainer
     
     new JoystickButton(leftJoystick, 1).whileTrue(new TeleopFaceAprilTag());
 
-    new JoystickButton(otherController, 9).whileTrue(new AutoShooterDistance());
+    new JoystickAnalogButton(otherController, 2, 0.3, 1.3).whileTrue(new ParallelCommandGroup(
+      new AutoShooterDistance(),
+      new HoodMove(m_hood, RobotContainer.drivebase.getHoodAngle()),
+      m_launcherMotor1.setAutoPowerCmd(),
+      m_launcherMotor2.setAutoPowerCmd()
+      ));
 
-    new POVButton(otherController, 0).whileTrue(new HoodMove(m_hood, RobotContainer.drivebase.Get));
+    new POVButton(otherController, 0).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle0Spot));
     new POVButton(otherController, 90).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle90Spot));
     new POVButton(otherController, 180).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle180Spot));
-    new POVButton(otherController, 270).whileTrue(new HoodMove(m_hood, Constants.Setpoints.hoodAngle270Spot));
+    new POVButton(otherController, 270).whileTrue(new ParallelCommandGroup(
+      new HoodMove(m_hood, -30),
+      m_launcherMotor1.setFeedPowerCmd(),
+      m_launcherMotor2.setFeedPowerCmd()
+    
+    ));
 
     new JoystickAnalogButton(otherController, 3, 0.3, 1.3).whileTrue(new ParallelCommandGroup(
       m_launcherMotor1.shootCmd(),
@@ -364,8 +374,11 @@ public class RobotContainer
     // ));
 
     new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Hood Angle: " + RobotContainer.drivebase.getHoodAngle())));
-    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Speed: " + RobotContainer.drivebase.getShooterRPS())));
+    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("AutoSpeed: " + RobotContainer.drivebase.getShooterRPS())));
     new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("Distance: " + RobotContainer.drivebase.getDistance())));
+    new JoystickButton(otherController, 9).whileTrue(new InstantCommand(() -> System.out.println("SpeedVar: " + m_launcherMotor1.speed)));
+
+
 
 
 

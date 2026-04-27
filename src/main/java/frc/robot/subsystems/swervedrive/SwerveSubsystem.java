@@ -323,23 +323,23 @@ newRotation = Math.max(-1.0, Math.min(1.0, turn));
     InterpolatingDoubleTreeMap hoodTable = new InterpolatingDoubleTreeMap();
     //Key is distance from Hub in Meters calculated from field estPose and hubPose
     //Value is the angle of the shooter hood
-    hoodTable.put(1.8, 0.0);
+    hoodTable.put(1.8,  0.0);
     hoodTable.put(1.98, 0.0);
     hoodTable.put(2.17, 0.0);
-    hoodTable.put(2.35, 15.0);
-    hoodTable.put(2.54, 15.0); 
-    hoodTable.put(2.72, 15.0);
-    hoodTable.put(2.9, 20.0);
-    hoodTable.put(3.09, 20.0);
-    hoodTable.put(3.27, 20.0);
-    hoodTable.put(3.46, 20.0);
-    hoodTable.put(3.64, 20.0);  
-    hoodTable.put(3.82, 20.0);
-    hoodTable.put(4.01, 20.0);
-    hoodTable.put(4.19, 20.0);
-    hoodTable.put(4.38, 20.0);
-    hoodTable.put(4.56, 20.0);
-    hoodTable.put(4.74, 20.0);
+    hoodTable.put(2.35, -15.0);
+    hoodTable.put(2.54, -15.0); 
+    hoodTable.put(2.72, -15.0);
+    hoodTable.put(2.9,  -20.0);
+    hoodTable.put(3.09, -20.0);
+    hoodTable.put(3.27, -20.0);
+    hoodTable.put(3.46, -20.0);
+    hoodTable.put(3.64, -20.0);  
+    hoodTable.put(3.82, -20.0);
+    hoodTable.put(4.01, -20.0);
+    hoodTable.put(4.19, -20.0);
+    hoodTable.put(4.38, -20.0);
+    hoodTable.put(4.56, -20.0);
+    hoodTable.put(4.74, -20.0);
 
     //Gets Distance from Hub to Robot Center
     double currentDistance = getDistance();
