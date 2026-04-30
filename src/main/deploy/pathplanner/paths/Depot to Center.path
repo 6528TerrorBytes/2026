@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 0.466,
-        "y": 7.37237676056338
+        "y": 7.4522183098591555
       },
       "prevControl": null,
       "nextControl": {
         "x": 1.9262862254025048,
-        "y": 7.615757798130464
+        "y": 7.695599347426239
       },
       "isLocked": false,
       "linkedName": "Center Depot End"

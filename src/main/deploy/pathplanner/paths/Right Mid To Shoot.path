@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.242024647887324,
-        "y": 1.8633098591549297
+        "x": 7.20012323943662,
+        "y": 1.1607042253521125
       },
       "isLocked": false,
       "linkedName": "Right Short Grab Point"
     },
     {
       "anchor": {
-        "x": 4.661161971830986,
-        "y": 2.789471830985916
+        "x": 4.565352112676057,
+        "y": 2.5978521126760565
       },
       "prevControl": {
-        "x": 5.571355633802817,
-        "y": 2.565915492957747
+        "x": 5.4755457746478875,
+        "y": 2.3742957746478877
       },
       "nextControl": {
-        "x": 3.997224875324667,
-        "y": 2.9525441003032573
+        "x": 3.9014150161697376,
+        "y": 2.760924381993398
       },
       "isLocked": false,
       "linkedName": null
@@ -56,7 +56,7 @@
       "minWaypointRelativePos": 0.7462686567164166,
       "maxWaypointRelativePos": 1.25,
       "constraints": {
-        "maxVelocity": 2.0,
+        "maxVelocity": 2.75,
         "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,

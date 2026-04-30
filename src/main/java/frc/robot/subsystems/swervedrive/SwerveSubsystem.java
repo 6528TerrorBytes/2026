@@ -64,6 +64,13 @@ public class SwerveSubsystem extends SubsystemBase
   //Do something with this lol
   static Pose2d hubPose;
   
+  static Pose2d currentFeedPose;
+
+  static Pose2d blueLeftFeedPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+  static Pose2d blueRightFeedPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0)); 
+  static Pose2d redLeftFeedPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+  static Pose2d redRightFeedPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0));
+
   static Pose2d blueHubPose = new Pose2d(Units.inchesToMeters(182.11),Units.inchesToMeters(158.84), new Rotation2d(0));
   static Pose2d redHubPose = new Pose2d(Units.inchesToMeters(469.11),Units.inchesToMeters(158.84), new Rotation2d(0));
 
@@ -289,6 +296,60 @@ double kD = 0.01;
 
 double turn = (kP * error) + (kI * errorSum) + (kD * derivative);
 
+// clamp to joystick range
+newRotation = Math.max(-1.0, Math.min(1.0, turn));
+
+// System.out.println("Turn: " + turn);
+// System.out.println("Error: " + error);
+// System.out.println("Rotate: " + newRotation);
+  }
+
+
+  
+  private double errorFeedSum = 0;
+  private double lastFeedError = 0.0;
+  public void feedAtTarget() {
+
+if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+    hubPose = blueHubPose;
+  } else {
+    hubPose = redHubPose;
+  }
+  
+Translation2d robotToHub = hubPose.getTranslation().minus(swerveDrive.getPose().getTranslation());
+
+Rotation2d targetAngle;
+
+if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
+  targetAngle = robotToHub.getAngle().minus(Rotation2d.fromDegrees(0));
+} else {
+  targetAngle = robotToHub.getAngle().minus(Rotation2d.fromDegrees(0));
+}
+//Blue = + 180 , Red = - 180 maybe
+
+double currentYaw = swerveDrive.getPose().getRotation().getDegrees();
+
+// System.out.println("Target: " + targetAngle.getDegrees());
+// System.out.println("Yaw: " + currentYaw);
+
+// shortest-path error [-180, 180]
+double error = Math.IEEEremainder(targetAngle.getDegrees() - currentYaw, 360.0);
+
+error = -error;
+
+double derivative = error - lastError;
+lastError = error;
+errorSum += error;
+//469.11 x
+
+errorSum = Math.max(-1.0, Math.min(1.0, errorSum));
+
+double kP = 5.0 / 180.0;
+double kI = 0.006;
+double kD = 0.01;
+
+double turn = (kP * error) + (kI * errorSum) + (kD * derivative);
+
 
 // // P gain (tune this)
 // double kP 
@@ -304,6 +365,8 @@ newRotation = Math.max(-1.0, Math.min(1.0, turn));
 // System.out.println("Rotate: " + newRotation);
 
   }
+
+
 
   public double getDistance() {
 
@@ -326,20 +389,20 @@ newRotation = Math.max(-1.0, Math.min(1.0, turn));
     hoodTable.put(1.8,  0.0);
     hoodTable.put(1.98, 0.0);
     hoodTable.put(2.17, 0.0);
-    hoodTable.put(2.35, -15.0);
-    hoodTable.put(2.54, -15.0); 
-    hoodTable.put(2.72, -15.0);
-    hoodTable.put(2.9,  -20.0);
-    hoodTable.put(3.09, -20.0);
-    hoodTable.put(3.27, -20.0);
-    hoodTable.put(3.46, -20.0);
-    hoodTable.put(3.64, -20.0);  
-    hoodTable.put(3.82, -20.0);
-    hoodTable.put(4.01, -20.0);
-    hoodTable.put(4.19, -20.0);
-    hoodTable.put(4.38, -20.0);
-    hoodTable.put(4.56, -20.0);
-    hoodTable.put(4.74, -20.0);
+    hoodTable.put(2.35, -7.5);
+    hoodTable.put(2.54, -7.5); 
+    hoodTable.put(2.72, -7.5);
+    hoodTable.put(2.9,  -10.0);
+    hoodTable.put(3.09, -10.0);
+    hoodTable.put(3.27, -15.0);
+    hoodTable.put(3.46, -15.0);
+    hoodTable.put(3.64, -17.5);  
+    hoodTable.put(3.82, -17.5);
+    hoodTable.put(4.01, -17.5);
+    hoodTable.put(4.19, -17.5);
+    hoodTable.put(4.38, -17.5);
+    hoodTable.put(4.56, -17.5);
+    hoodTable.put(4.74, -17.5);
 
     //Gets Distance from Hub to Robot Center
     double currentDistance = getDistance();
@@ -357,20 +420,20 @@ newRotation = Math.max(-1.0, Math.min(1.0, turn));
     //Value is the RPS of the shooter
     shooterTable.put(1.80, -40.0);
     shooterTable.put(1.98, -40.0);
-    shooterTable.put(2.17, -42.5);
+    shooterTable.put(2.17, -42.0);
     shooterTable.put(2.35, -42.5);
-    shooterTable.put(2.54, -45.0); 
-    shooterTable.put(2.72, -46.0);
-    shooterTable.put(2.90, -47.0);
-    shooterTable.put(3.09, -48.0);
-    shooterTable.put(3.27, -49.0);
-    shooterTable.put(3.46, -50.0);
-    shooterTable.put(3.64, -50.0);  
-    shooterTable.put(3.82, -51.0);
-    shooterTable.put(4.01, -53.0);
-    shooterTable.put(4.19, -55.0);
+    shooterTable.put(2.54, -42.5); 
+    shooterTable.put(2.72, -42.5);
+    shooterTable.put(2.90, -43.0);
+    shooterTable.put(3.09, -43.0);
+    shooterTable.put(3.27, -44.0);
+    shooterTable.put(3.46, -47.0);
+    shooterTable.put(3.64, -47.5);  
+    shooterTable.put(3.82, -48.0);
+    shooterTable.put(4.01, -49.0);
+    shooterTable.put(4.19, -50.0);
     shooterTable.put(4.38, -57.0);
-    shooterTable.put(4.56, -62.0);
+    shooterTable.put(4.56, -60.0);
     shooterTable.put(4.74, -64.0);
 
     //Gets Distance from Hub to Robot Center

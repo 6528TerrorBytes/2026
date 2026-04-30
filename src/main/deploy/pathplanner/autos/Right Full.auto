@@ -11,21 +11,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "Shooter Forward"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Disable"
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shooter Forward"
+                }
+              }
+            ]
           }
         },
         {
@@ -48,39 +49,41 @@
           }
         },
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "Intake Forward"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right Ball Grab"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Right Mid To Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Disable"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Forward"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 7.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Forward"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Right Ball Grab"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Right Mid To Shoot"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -90,28 +93,48 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.5
+                  "waitTime": 4.5
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Arm Vertical"
+                  "name": "Shooter Forward"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.75
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Intake Arm Vertical"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Intake Forward"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter Disable"
           }
         }
       ]

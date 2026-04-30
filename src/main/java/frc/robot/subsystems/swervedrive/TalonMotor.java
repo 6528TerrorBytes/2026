@@ -75,12 +75,12 @@ public class TalonMotor extends SubsystemBase {
 
   public void setMidPower() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(-50));
+    m_motor.setControl(new VelocityVoltage(-45));
   }
 
   public void setFarPower() {
     m_disable = false;
-    m_motor.setControl(new VelocityVoltage(-60));
+    m_motor.setControl(new VelocityVoltage(-50));
   }
 
   public void setAutoPower() {

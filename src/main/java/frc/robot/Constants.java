@@ -102,8 +102,8 @@ public final class Constants
     public static final double hoodAngleHorizontal = 0; //Hard Stop Position
     public static final double hoodAngle0Spot = hoodAngleHorizontal - 7.5;  //Close Angle
     public static final double hoodAngle90Spot = hoodAngleHorizontal - 15;  //Mid Angle
-    public static final double hoodAngle180Spot = hoodAngleHorizontal - 20; //Far Angle
-    public static final double hoodAngle270Spot = hoodAngleHorizontal - 30; //Feed Angle
+    public static final double hoodAngle180Spot = hoodAngleHorizontal - 17.5; //Far Angle
+    public static final double hoodAngle270Spot = hoodAngleHorizontal - 25; //Feed Angle
   }
 
   public static final class AprilTags {
@@ -185,7 +185,7 @@ public final class Constants
     }
 
     public static final SparkMaxConfig hoodConfig = new SparkMaxConfig();
-    public static final double hoodTolerance = 1;
+    public static final double hoodTolerance = 0.5;
 
     static {
       hoodConfig
